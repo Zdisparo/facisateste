@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>FACISA | Vestibular 2026</title>
+  <meta name="theme-color" content="#e30613">
+  <style>
+    :root{
+      --blue:#e6f2ff;          /* azul claro */
+      --red:#e30613;           /* vermelho institucional */
+      --red-dark:#b1000d;
+      --white:#ffffff;
+      --text:#101114;          /* preto suave */
+      --muted:#6b7280;
+      --radius:18px;
+      --shadow:0 8px 28px rgba(16,17,20,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--blue);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
+    img{display:block;max-width:100%;height:auto}
+    a{color:inherit;text-decoration:none}
+
+    /* LAYOUT MOBILE */
+    .container{max-width:720px;margin:0 auto;padding:16px}
+    .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+    /* HEADER */
+    .topbar{position:sticky;top:0;z-index:30;background:var(--white);border-bottom:1px solid #eef2f4}
+    .topbar-inner{display:flex;align-items:center;gap:12px;padding:10px 14px}
+    .logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--red),#ff6670)}
+    .logo img{width:100%;height:100%;object-fit:contain;display:block} /* <- permite usar a logo dentro do quadrado */
+    .brand{font-weight:800;letter-spacing:.2px}
+    .badge{margin-left:auto;font-size:12px;background:var(--red);color:var(--white);padding:6px 10px;border-radius:999px}
+
+    /* HERO */
+    .hero{background:linear-gradient(180deg, var(--white), var(--blue));}
+    .hero-box{padding:24px 16px 12px}
+    .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--red);text-transform:uppercase;background:#ffe8ea;padding:6px 10px;border-radius:999px}
+    .h1{font-size:28px;line-height:1.15;margin:12px 0 8px;font-weight:900;}
+    .h1 .accent{color:var(--red)}
+    .sub{color:#243141;opacity:.9;margin-bottom:16px}
+    .cta-row{display:flex;gap:10px}
+    .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;padding:14px 16px;border-radius:14px;font-weight:800;border:0}
+    .btn-primary{background:var(--red);color:var(--white)}
+    .btn-primary:active{transform:translateY(1px);background:var(--red-dark)}
+    .btn-outline{background:transparent;color:var(--red);border:2px solid var(--red)}
+
+    /* SECTIONS */
+    section{padding:16px}
+    .section-title{font-size:18px;font-weight:900;margin:0 0 10px}
+    .section-desc{color:var(--muted);font-size:14px;margin-top:-4px}
+
+    /* HIGHLIGHTS */
+    .grid-3{display:grid;grid-template-columns:1fr;gap:12px}
+    .highlight{padding:14px;border-radius:16px;background:var(--white);display:flex;gap:12px;align-items:center}
+    .ico{width:44px;height:44px;border-radius:12px;background:var(--blue);display:grid;place-items:center;font-weight:900;color:var(--red)}
+    .h-text b{display:block}
+
+    /* COURSES CAROUSEL */
+    .carousel-wrap{position:relative}
+    .carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+    .carousel::-webkit-scrollbar{height:6px}
+    .carousel::-webkit-scrollbar-thumb{background:#d2d8de;border-radius:999px}
+    .course{min-width:72%;scroll-snap-align:center;border-radius:18px;overflow:hidden;background:var(--white);box-shadow:var(--shadow)}
+    .course .media{aspect-ratio:16/10;background:#dbeafe;display:grid;place-items:center;font-weight:800;color:#0f172a;position:relative}
+    .course .media img{width:100%;height:100%;object-fit:cover}
+    .course .body{padding:12px}
+    .course .title{font-size:16px;font-weight:900;margin:0 0 6px}
+    .course .meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef2f7;font-size:12px}
+    .cta-mini{margin-top:10px;display:block;text-align:center;padding:10px;border-radius:12px;background:var(--red);color:var(--white);font-weight:800}
+    .nav-btn{position:absolute;top:38%;transform:translateY(-50%);border:0;background:rgba(16,17,20,.5);color:#fff;width:36px;height:36px;border-radius:999px;display:grid;place-items:center}
+    .nav-btn.left{left:4px}
+    .nav-btn.right{right:4px}
+
+    /* HOW-TO */
+    .steps{display:grid;grid-template-columns:1fr;gap:10px}
+    .step{background:var(--white);padding:14px;border-radius:16px}
+    .step b{display:block}
+
+    /* FAQ */
+    details{background:var(--white);padding:14px;border-radius:16px}
+    details+details{margin-top:10px}
+    summary{font-weight:800;cursor:pointer}
+    summary::-webkit-details-marker{display:none}
+
+    /* FOOTER */
+    footer{background:var(--red);color:#fff;padding:18px;border-top-left-radius:18px;border-top-right-radius:18px}
+    .footer-brand{font-weight:900}
+
+    /* STICKY CTA */
+    .sticky-cta{position:fixed;bottom:10px;left:10px;right:10px;z-index:40}
+    .sticky-cta a{display:block;text-align:center;padding:14px;border-radius:16px;background:var(--red);color:#fff;font-weight:900;box-shadow:var(--shadow)}
+
+    /* REVEAL ANIMATIONS */
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease, transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* UTILS */
+    .mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}
+    .bg-white{background:var(--white)}
+    .invert-text{color:#fff}
+    .center{text-align:center}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* ---- HERO SLIDER (novo, sem conflito) ---- */
+    .hero-slider{position:relative;border-radius:14px;overflow:hidden}
+    .hero-track{display:flex;gap:0;overflow:hidden;scroll-behavior:smooth}
+    .hero-slide{min-width:100%;aspect-ratio:16/9;background:#f2f6ff}
+    .hero-slide img{width:100%;height:100%;object-fit:cover}
+    .hero-nav{position:absolute;inset:auto 8px 8px;display:flex;gap:8px;justify-content:flex-end}
+    .hero-btn{border:0;border-radius:12px;padding:8px 12px;font-weight:800;background:rgba(16,17,20,.65);color:#fff}
+    .hero-btn:active{transform:translateY(1px)}
+
+    /* ---- MODAL LEAD (pré-cadastro) ---- */
+    .lead-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(16,17,20,.45);
+      display:none;
+      place-items:center;
+      z-index:9998;
+      padding:14px;
+    }
+    .lead-overlay.show{ display:grid; }
+
+    .lead-modal{
+      width:min(92vw, 520px);
+      background:var(--white);
+      border-radius:var(--radius);
+      box-shadow:0 18px 60px rgba(16,17,20,.22);
+      padding:16px;
+      position:relative;
+      transform:translateY(10px);
+      animation:leadPop .18s ease-out forwards;
+    }
+    @keyframes leadPop{
+      to{ transform:translateY(0); }
+    }
+
+    .lead-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      border:1px solid #eef2f4;
+      background:#fff;
+      font-size:22px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .lead-title{
+      margin:6px 0 4px;
+      font-size:18px;
+      font-weight:900;
+    }
+    .lead-sub{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.4;
+    }
+
+    .lead-form{ display:grid; gap:8px; }
+    .lead-label{
+      font-size:12px;
+      font-weight:800;
+      color:#243141;
+      margin-top:6px;
+    }
+    .lead-input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid #e5e7eb;
+      outline:none;
+      background:#fff;
+      font-size:14px;
+    }
+    .lead-input:focus{
+      border-color:rgba(227,6,19,.45);
+      box-shadow:0 0 0 4px rgba(227,6,19,.10);
+    }
+
+    .lead-submit{
+      margin-top:8px;
+      padding:14px 16px;
+      border:0;
+      border-radius:14px;
+      background:var(--red);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .lead-submit:active{ transform:translateY(1px); background:var(--red-dark); }
+
+    .lead-note{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+      margin-top:2px;
+    }
+
+    /* MEDIA (opcional) */
+    @media (min-width:768px){
+      .course{min-width:56%}
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">
+        <img src="./logo.png" alt="FACISA">
+      </div>
+      <div>
+        <div class="brand">FACISA • Vestibular 2026</div>
+        <small style="color:var(--muted)">Itamaraju — Bahia</small>
+      </div>
+      <span class="badge">Inscrições Abertas</span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero reveal">
+    <div class="container hero-box card" style="background:linear-gradient(180deg,#fff,#f7fbff)">
+      <span class="eyebrow">Vestibular 2026</span>
+      <h1 class="h1">Seu futuro começa <span class="accent">agora</span> na FACISA</h1>
+      <p class="sub">Provas presenciais e online. Bolsas por desempenho. Parcelamento facilitado.</p>
+      <div class="cta-row">
+        <a href="#cursos" class="btn btn-primary">Escolher curso</a>
+        <a href="#inscricao" class="btn btn-outline">Fazer inscrição</a>
+      </div>
+
+      <div class="mt-12 hero-slider">
+        <div class="hero-track" id="heroTrack" aria-live="polite">
+          <div class="hero-slide"><img src="./bn-1.png" alt="Banner Vestibular 2026 - 1"></div>
+          <div class="hero-slide"><img src="./bn-2.jpg" alt="Banner Vestibular 2026 - 2"></div>
+          <div class="hero-slide"><img src="./bn-3.jpg" alt="Banner Vestibular 2026 - 3"></div>
+          <div class="hero-slide"><img src="./bn-4.jpg" alt="Banner Vestibular 2026 - 4"></div>
+          <div class="hero-slide"><img src="./bn-5.png" alt="Banner Vestibular 2026 - 5"></div>
+          <div class="hero-slide"><img src="./bn-6.png" alt="Banner Vestibular 2026 - 6"></div>
+        </div>
+        <div class="hero-nav">
+          <button class="hero-btn" type="button" aria-label="Banner anterior" onclick="scrollHero(-1)">‹</button>
+          <button class="hero-btn" type="button" aria-label="Próximo banner" onclick="scrollHero(1)">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section class="reveal">
+    <div class="container">
+      <h2 class="section-title">Por que escolher a FACISA?</h2>
+      <p class="section-desc">Qualidade, estrutura moderna e conexão com o mercado — tudo em Itamaraju.</p>
+      <div class="grid-3">
+        <div class="highlight">
+          <div class="ico">A+</div>
+          <div class="h-text"><b>Excelência acadêmica</b><small class="section-desc">Corpo docente experiente e nota de destaque.</small></div>
+        </div>
+        <div class="highlight">
+          <div class="ico">🏥</div>
+          <div class="h-text"><b>Clínicas e laboratórios</b><small class="section-desc">Estrutura prática de ponta para várias áreas.</small></div>
+        </div>
+        <div class="highlight">
+          <div class="ico">💼</div>
+          <div class="h-text"><b>Empregabilidade</b><small class="section-desc">Parcerias locais e regionais que abrem portas.</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMAGE/HEADLINE PLACEHOLDER SECTION -->
+  <section class="reveal">
+    <div class="container">
+      <div class="card" style="overflow:hidden">
+        <img src="./campus.png" alt="Foto do campus" />
+        <div style="padding:14px">
+          <h3 style="margin:0 0 6px;font-size:18px;font-weight:900">Aprender na prática faz diferença</h3>
+          <p class="section-desc">Substitua este texto por um destaque institucional (ex.: novo laboratório de Farmácia, ambulatório escola, biblioteca inclusiva, etc.).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section id="cursos" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Cursos disponíveis</h2>
+      <p class="section-desc">Deslize para o lado e toque no curso para se inscrever.</p>
+
+      <div class="carousel-wrap">
+        <button class="nav-btn left" aria-label="Anterior" onclick="scrollCourses(-1)">‹</button>
+        <div class="carousel" id="carousel">
+
+          <a class="course" href="https://www.google.com" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./odonto.png" alt="Curso de Odontologia" loading="lazy">
+              <span class="sr-only">Odontologia</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Odontologia</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">5 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/direito" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./direito.png" alt="Curso de Direito" loading="lazy">
+              <span class="sr-only">Direito</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Direito</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">5 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/enfermagem" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./enfermagem.png" alt="Curso de Enfermagem" loading="lazy">
+              <span class="sr-only">Enfermagem</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Enfermagem</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">5 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/farmacia" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./farmacia.png" alt="Curso de Farmácia" loading="lazy">
+              <span class="sr-only">Farmácia</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Farmácia</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">5 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/adm" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./adm.png" alt="Curso de Administração" loading="lazy">
+              <span class="sr-only">Administração</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Administração</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">4 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/medicina-veterinaria" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./medvet.png" alt="Curso de Medicina Veterinária" loading="lazy">
+              <span class="sr-only">Medicina Veterinária</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Medicina Veterinária</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">5 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/gastronomia" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./gastro.png" alt="Curso de Gastronomia" loading="lazy">
+              <span class="sr-only">Gastronomia</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Gastronomia</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">4 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+          <a class="course" href="https://facisa.example/inscricao/radiologia" target="_blank" rel="noopener">
+            <div class="media">
+              <img src="./radio.png" alt="Curso de Radiologia" loading="lazy">
+              <span class="sr-only">Radiologia</span>
+            </div>
+            <div class="body">
+              <h3 class="title">Radiologia</h3>
+              <div class="meta"><span class="pill">Presencial</span><span class="pill">3 anos</span></div>
+              <span class="cta-mini">Inscrever-se</span>
+            </div>
+          </a>
+
+        </div>
+        <button class="nav-btn right" aria-label="Próximo" onclick="scrollCourses(1)">›</button>
+      </div>
+      <small class="section-desc">Dica: você pode deslizar com o dedo para navegar.</small>
+    </div>
+  </section>
+
+  <!-- HOW TO APPLY / BENEFITS -->
+  <section id="inscricao" class="reveal">
+    <div class="container">
+      <div class="step card">
+        <b>1) Inscreva-se</b>
+        <small class="section-desc">Preencha seus dados e escolha o curso.</small>
+      </div>
+      <div class="step card">
+        <b>2) Faça a prova</b>
+        <small class="section-desc">Online ou presencial, você decide.</small>
+      </div>
+      <div class="step card">
+        <b>3) Matrícula</b>
+        <small class="section-desc">Aproveite bolsas por desempenho e condições flexíveis.</small>
+      </div>
+      <a href="#" class="btn btn-primary mt-16" style="display:block;text-align:center">Começar minha inscrição</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="reveal">
+    <div class="container">
+      <h2 class="section-title">Dúvidas frequentes</h2>
+      <details>
+        <summary>Como funcionam as bolsas?</summary>
+        <p class="section-desc">Explique aqui a política de bolsas por desempenho, convênios e financiamentos.</p>
+      </details>
+      <details>
+        <summary>Posso usar a nota do ENEM?</summary>
+        <p class="section-desc">Informe se há ingresso via ENEM e os critérios.</p>
+      </details>
+      <details>
+        <summary>Prova online tem horário?</summary>
+        <p class="section-desc">Explique janelas de aplicação e prazos.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="reveal invert-text">
+    <div class="container">
+      <div class="footer-brand">FACISA • Vestibular 2026</div>
+      <small>Endereço, telefone, WhatsApp e links úteis entram aqui.</small>
+    </div>
+  </footer>
+
+  <!-- STICKY CTA -->
+  <div class="sticky-cta" aria-hidden="false">
+    <a href="#inscricao">Quero me inscrever agora</a>
+  </div>
+
+  <!-- ✅ MODAL LEAD AGORA VEM ANTES DO SCRIPT (corrige o bug do popup não abrir) -->
+  <div id="leadModalOverlay" class="lead-overlay" aria-hidden="true">
+    <div class="lead-modal" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
+      <button class="lead-close" type="button" aria-label="Fechar" id="leadCloseBtn">×</button>
+
+      <h3 id="leadTitle" class="lead-title">Pré-cadastro rápido</h3>
+      <p class="lead-sub">Preencha para continuar sua inscrição no curso escolhido.</p>
+
+      <form id="leadForm" class="lead-form" autocomplete="on">
+        <label class="lead-label" for="leadName">Nome</label>
+        <input id="leadName" name="name" class="lead-input" type="text" placeholder="Seu nome completo" required />
+
+        <label class="lead-label" for="leadPhone">Telefone (WhatsApp)</label>
+        <input id="leadPhone" name="phone" class="lead-input" type="tel" inputmode="tel" placeholder="(73) 9xxxx-xxxx" required />
+
+        <label class="lead-label" for="leadEmail">Email</label>
+        <input id="leadEmail" name="email" class="lead-input" type="email" inputmode="email" placeholder="seuemail@exemplo.com" required />
+
+        <input id="leadCourseName" type="hidden" name="course_name" value="" />
+        <input id="leadRedirectUrl" type="hidden" name="redirect_url" value="" />
+
+        <button class="lead-submit" type="submit" id="leadSubmitBtn">Enviar e continuar</button>
+        <small class="lead-note">Ao enviar, você concorda em ser contatado(a) pela FACISA.</small>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Fade in/out ao rolar (aplica/retira .visible em ambas direções)
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('visible'); }
+        else{ e.target.classList.remove('visible'); }
+      })
+    }, {threshold: 0.15});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+    // ---- HERO SLIDER (independente do carrossel dos cursos) ----
+    const heroTrack = document.getElementById('heroTrack');
+    function scrollHero(dir){
+      const slide = heroTrack.querySelector('.hero-slide');
+      const step = slide ? slide.getBoundingClientRect().width : heroTrack.clientWidth;
+      heroTrack.scrollBy({ left: dir * step, behavior: 'smooth' });
+    }
+    // Swipe (touch) do banner
+    let hStartX = 0, hScrollLeft = 0, hDown = false;
+    heroTrack.addEventListener('pointerdown', (e)=>{ hDown=true; hStartX=e.pageX; hScrollLeft=heroTrack.scrollLeft; heroTrack.setPointerCapture(e.pointerId); });
+    heroTrack.addEventListener('pointermove', (e)=>{ if(!hDown) return; const dx = e.pageX - hStartX; heroTrack.scrollLeft = hScrollLeft - dx; });
+    ['pointerup','pointercancel','pointerleave'].forEach(evt=>heroTrack.addEventListener(evt, ()=>{ hDown=false; }));
+
+    // ---- Carrossel dos cursos (original) ----
+    const carousel = document.getElementById('carousel');
+    function scrollCourses(dir){
+      const card = carousel.querySelector('.course');
+      const step = card ? card.getBoundingClientRect().width + 12 : 260;
+      carousel.scrollBy({left: dir * step, behavior:'smooth'});
+    }
+
+    // Swipe (touch) para ter sensação de carrossel
+    let startX = 0, scrollLeft = 0, isDown = false;
+    carousel.addEventListener('pointerdown', (e)=>{ isDown=true; startX=e.pageX; scrollLeft=carousel.scrollLeft; carousel.setPointerCapture(e.pointerId); });
+    carousel.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.pageX - startX; carousel.scrollLeft = scrollLeft - dx; });
+    ['pointerup','pointercancel','pointerleave'].forEach(evt=>carousel.addEventListener(evt, ()=>{ isDown=false; }));
+
+    // Acessibilidade: usar teclas de setas quando focado
+    carousel.tabIndex = 0;
+    carousel.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight') scrollCourses(1);
+      if(e.key==='ArrowLeft') scrollCourses(-1);
+    });
+
+    // ==============================
+    // MODAL LEAD + Advanced Matching
+    // ==============================
+
+    // Pixel base preparado (você só troca depois o ID)
+    window.META_PIXEL_ID = window.META_PIXEL_ID || "COLE_SEU_PIXEL_ID_AQUI";
+
+    // Carrega pixel somente se tiver um ID real
+    (function initMetaPixel(){
+      const id = (window.META_PIXEL_ID || "").trim();
+      if(!id || id === "COLE_SEU_PIXEL_ID_AQUI") return;
+
+      // Meta Pixel Code (base)
+      !function(f,b,e,v,n,t,s){
+        if(f.fbq)return; n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+        n.queue=[]; t=b.createElement(e); t.async=!0;
+        t.src=v; s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+      }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+      fbq('init', id);
+      fbq('track', 'PageView');
+    })();
+
+    function normalizeEmail(email){ return (email || "").trim().toLowerCase(); }
+    function normalizePhoneBR(phone){
+      let digits = (phone || "").replace(/\D+/g,'');
+      if(digits.length === 10 || digits.length === 11) digits = "55" + digits;
+      return digits;
+    }
+    function splitName(full){
+      const parts = (full || "").trim().split(/\s+/).filter(Boolean);
+      return { fn: parts[0] || "", ln: parts.length > 1 ? parts[parts.length - 1] : "" };
+    }
+
+    const leadOverlay   = document.getElementById("leadModalOverlay");
+    const leadCloseBtn  = document.getElementById("leadCloseBtn");
+    const leadForm      = document.getElementById("leadForm");
+    const leadName      = document.getElementById("leadName");
+    const leadPhone     = document.getElementById("leadPhone");
+    const leadEmail     = document.getElementById("leadEmail");
+    const leadCourse    = document.getElementById("leadCourseName");
+    const leadRedirect  = document.getElementById("leadRedirectUrl");
+    const leadSubmitBtn = document.getElementById("leadSubmitBtn");
+
+    function openLeadModal({ courseName = "", redirectUrl = "" }){
+      leadCourse.value = courseName;
+      leadRedirect.value = redirectUrl;
+
+      leadOverlay.classList.add("show");
+      leadOverlay.setAttribute("aria-hidden","false");
+
+      setTimeout(()=> leadName.focus({ preventScroll:true }), 50);
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLeadModal(){
+      leadOverlay.classList.remove("show");
+      leadOverlay.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";
+      leadSubmitBtn.disabled = false;
+      leadSubmitBtn.textContent = "Enviar e continuar";
+    }
+
+    leadCloseBtn.addEventListener("click", closeLeadModal);
+    leadOverlay.addEventListener("click", (e)=>{ if(e.target === leadOverlay) closeLeadModal(); });
+    window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && leadOverlay.classList.contains("show")) closeLeadModal(); });
+
+    // Intercepta clique nos cursos e abre modal
+    document.querySelectorAll(".course").forEach((a)=>{
+      a.addEventListener("click", (e)=>{
+        e.preventDefault();
+
+        const href = a.getAttribute("href") || "";
+        const titleEl = a.querySelector(".title");
+        const courseName = titleEl ? titleEl.textContent.trim() : "Curso";
+
+        openLeadModal({ courseName, redirectUrl: href });
+      });
+    });
+
+    // Submit do pré-cadastro -> Lead + redirect
+    leadForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+
+      leadSubmitBtn.disabled = true;
+      leadSubmitBtn.textContent = "Enviando...";
+
+      const name  = (leadName.value || "").trim();
+      const email = normalizeEmail(leadEmail.value);
+      const phone = normalizePhoneBR(leadPhone.value);
+      const { fn, ln } = splitName(name);
+
+      try{
+        if(typeof fbq === "function"){
+          const id = (window.META_PIXEL_ID || "").trim();
+          if(id && id !== "COLE_SEU_PIXEL_ID_AQUI"){
+            // Advanced Matching + Lead (no momento certo: no envio)
+            fbq('init', id, { em: email||undefined, ph: phone||undefined, fn: fn||undefined, ln: ln||undefined });
+            fbq('track', 'Lead', {
+              content_name: leadCourse.value || "Vestibular FACISA 2026",
+              source: "LP Vestibular 2026"
+            });
+          }
+        }
+      }catch(err){
+        console.warn("Pixel/Lead não disparou:", err);
+      }
+
+      const url = (leadRedirect.value || "").trim();
+      setTimeout(()=>{
+        closeLeadModal();
+        if(url){
+          window.location.href = url; // mantém em mesma aba (melhor p/ conversão)
+        }else{
+          leadSubmitBtn.disabled = false;
+          leadSubmitBtn.textContent = "Enviar e continuar";
+          alert("Link do curso não encontrado. Verifique o href do card.");
+        }
+      }, 350);
+    });
+  </script>
+
+  <!-- AVISO DE COOKIES (centralizado e responsivo) -->
+  <div id="cookieOverlay" class="cookie-overlay" aria-hidden="true">
+    <div id="cookieBanner" class="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookieTitle">
+      <h3 id="cookieTitle">Usamos cookies 🍪</h3>
+      <p class="cookie-desc">
+        Eles ajudam a melhorar sua experiência e entender como você usa a LP.
+      </p>
+      <div class="cookie-actions">
+        <button id="acceptCookies" class="cookie-btn">Aceitar e continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .cookie-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(16,17,20,.38);
+    display:grid;
+    place-items:center;
+    z-index:9999;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .cookie-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .cookie-modal{
+    width:min(92vw, 560px);
+    background:var(--white, #fff);
+    color:var(--text, #101114);
+    border-radius:var(--radius, 18px);
+    box-shadow:0 16px 48px rgba(16,17,20,.20);
+    padding:18px;
+    transform:translateY(12px);
+    transition:transform .35s ease;
+  }
+  .cookie-overlay.show .cookie-modal{ transform:translateY(0) }
+
+  .cookie-modal h3{
+    margin:0 0 6px;
+    font-size:18px;
+    font-weight:900;
+  }
+  .cookie-desc{
+    margin:0 0 14px;
+    color:var(--muted, #6b7280);
+    line-height:1.5;
+    font-size:14px;
+  }
+
+  .cookie-actions{
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+  }
+  .cookie-btn{
+    background:var(--red,#e30613);
+    color:#fff;
+    border:0;
+    border-radius:12px;
+    padding:10px 16px;
+    font-weight:800;
+    cursor:pointer;
+    transition:background .25s ease, transform .05s ease;
+  }
+  .cookie-btn:active{ transform:translateY(1px) }
+  .cookie-btn:hover{ background:var(--red-dark,#b1000d) }
+
+  @media (max-width:480px){
+    .cookie-actions{ justify-content:stretch }
+    .cookie-btn{ width:100% }
+  }
+  </style>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", ()=>{
+    const overlay = document.getElementById("cookieOverlay");
+    const btn     = document.getElementById("acceptCookies");
+
+    if(!localStorage.getItem("cookiesAccepted")){
+      setTimeout(()=>{
+        overlay.classList.add("show");
+        overlay.setAttribute("aria-hidden","false");
+        btn.focus({ preventScroll:true });
+      }, 600);
+    }
+
+    function acceptCookies(){
+      localStorage.setItem("cookiesAccepted","true");
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden","true");
+    }
+    btn.addEventListener("click", acceptCookies);
+
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && overlay.classList.contains("show")){
+        acceptCookies();
+      }
+    });
+
+    overlay.addEventListener("click", (e)=>{
+      if(e.target === overlay){ acceptCookies(); }
+    });
+  });
+  </script>
+
+</body>
+</html>
