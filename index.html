@@ -1,17 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  // ✅ Pixel ID
+  fbq('init', '731985879919035');
+
+  // ✅ Gate 30 dias via localStorage (PageView + Lead)
+  (function(){
+    const TTL_DAYS = 30;
+    const TTL_MS = TTL_DAYS * 24 * 60 * 60 * 1000;
+
+    function canFire(key){
+      try{
+        const raw = localStorage.getItem(key);
+        if(!raw) return true;
+        const last = parseInt(raw, 10);
+        if(!last || Number.isNaN(last)) return true;
+        return (Date.now() - last) > TTL_MS;
+      }catch(e){
+        return true;
+      }
+    }
+    function mark(key){
+      try{ localStorage.setItem(key, String(Date.now())); }catch(e){}
+    }
+
+    window.__facisaPxGate = { canFire, mark, TTL_DAYS };
+
+    const PV_KEY = "facisa_px_pageview_v1";
+    if (canFire(PV_KEY)) {
+      fbq('track', 'PageView');
+      mark(PV_KEY);
+    }
+  })();
+</script>
+
+<!--
+⚠️ IMPORTANTE:
+O <noscript> abaixo SEMPRE envia PageView (não respeita localStorage).
+Se você quer bloquear 100% PageView por 30 dias, remova o noscript.
+-->
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=731985879919035&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>FACISA | Vestibular 2026</title>
   <meta name="theme-color" content="#e30613">
   <style>
     :root{
-      --blue:#e6f2ff;          /* azul claro */
-      --red:#e30613;           /* vermelho institucional */
+      --blue:#e6f2ff;
+      --red:#e30613;
       --red-dark:#b1000d;
       --white:#ffffff;
-      --text:#101114;          /* preto suave */
+      --text:#101114;
       --muted:#6b7280;
       --radius:18px;
       --shadow:0 8px 28px rgba(16,17,20,.08);
@@ -21,19 +77,16 @@
     img{display:block;max-width:100%;height:auto}
     a{color:inherit;text-decoration:none}
 
-    /* LAYOUT MOBILE */
     .container{max-width:720px;margin:0 auto;padding:16px}
     .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
 
-    /* HEADER */
     .topbar{position:sticky;top:0;z-index:30;background:var(--white);border-bottom:1px solid #eef2f4}
     .topbar-inner{display:flex;align-items:center;gap:12px;padding:10px 14px}
     .logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--red),#ff6670)}
-    .logo img{width:100%;height:100%;object-fit:contain;display:block} /* <- permite usar a logo dentro do quadrado */
+    .logo img{width:100%;height:100%;object-fit:contain;display:block}
     .brand{font-weight:800;letter-spacing:.2px}
     .badge{margin-left:auto;font-size:12px;background:var(--red);color:var(--white);padding:6px 10px;border-radius:999px}
 
-    /* HERO */
     .hero{background:linear-gradient(180deg, var(--white), var(--blue));}
     .hero-box{padding:24px 16px 12px}
     .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--red);text-transform:uppercase;background:#ffe8ea;padding:6px 10px;border-radius:999px}
@@ -46,18 +99,15 @@
     .btn-primary:active{transform:translateY(1px);background:var(--red-dark)}
     .btn-outline{background:transparent;color:var(--red);border:2px solid var(--red)}
 
-    /* SECTIONS */
     section{padding:16px}
     .section-title{font-size:18px;font-weight:900;margin:0 0 10px}
     .section-desc{color:var(--muted);font-size:14px;margin-top:-4px}
 
-    /* HIGHLIGHTS */
     .grid-3{display:grid;grid-template-columns:1fr;gap:12px}
     .highlight{padding:14px;border-radius:16px;background:var(--white);display:flex;gap:12px;align-items:center}
     .ico{width:44px;height:44px;border-radius:12px;background:var(--blue);display:grid;place-items:center;font-weight:900;color:var(--red)}
     .h-text b{display:block}
 
-    /* COURSES CAROUSEL */
     .carousel-wrap{position:relative}
     .carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
     .carousel::-webkit-scrollbar{height:6px}
@@ -74,37 +124,30 @@
     .nav-btn.left{left:4px}
     .nav-btn.right{right:4px}
 
-    /* HOW-TO */
     .steps{display:grid;grid-template-columns:1fr;gap:10px}
     .step{background:var(--white);padding:14px;border-radius:16px}
     .step b{display:block}
 
-    /* FAQ */
     details{background:var(--white);padding:14px;border-radius:16px}
     details+details{margin-top:10px}
     summary{font-weight:800;cursor:pointer}
     summary::-webkit-details-marker{display:none}
 
-    /* FOOTER */
     footer{background:var(--red);color:#fff;padding:18px;border-top-left-radius:18px;border-top-right-radius:18px}
     .footer-brand{font-weight:900}
 
-    /* STICKY CTA */
     .sticky-cta{position:fixed;bottom:10px;left:10px;right:10px;z-index:40}
     .sticky-cta a{display:block;text-align:center;padding:14px;border-radius:16px;background:var(--red);color:#fff;font-weight:900;box-shadow:var(--shadow)}
 
-    /* REVEAL ANIMATIONS */
     .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease, transform .7s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
 
-    /* UTILS */
     .mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}
     .bg-white{background:var(--white)}
     .invert-text{color:#fff}
     .center{text-align:center}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* ---- HERO SLIDER (novo, sem conflito) ---- */
     .hero-slider{position:relative;border-radius:14px;overflow:hidden}
     .hero-track{display:flex;gap:0;overflow:hidden;scroll-behavior:smooth}
     .hero-slide{min-width:100%;aspect-ratio:16/9;background:#f2f6ff}
@@ -113,7 +156,6 @@
     .hero-btn{border:0;border-radius:12px;padding:8px 12px;font-weight:800;background:rgba(16,17,20,.65);color:#fff}
     .hero-btn:active{transform:translateY(1px)}
 
-    /* ---- MODAL LEAD (pré-cadastro) ---- */
     .lead-overlay{
       position:fixed;
       inset:0;
@@ -135,9 +177,7 @@
       transform:translateY(10px);
       animation:leadPop .18s ease-out forwards;
     }
-    @keyframes leadPop{
-      to{ transform:translateY(0); }
-    }
+    @keyframes leadPop{ to{ transform:translateY(0); } }
 
     .lead-close{
       position:absolute;
@@ -153,11 +193,7 @@
       cursor:pointer;
     }
 
-    .lead-title{
-      margin:6px 0 4px;
-      font-size:18px;
-      font-weight:900;
-    }
+    .lead-title{ margin:6px 0 4px; font-size:18px; font-weight:900; }
     .lead-sub{
       margin:0 0 12px;
       color:var(--muted);
@@ -166,12 +202,7 @@
     }
 
     .lead-form{ display:grid; gap:8px; }
-    .lead-label{
-      font-size:12px;
-      font-weight:800;
-      color:#243141;
-      margin-top:6px;
-    }
+    .lead-label{ font-size:12px; font-weight:800; color:#243141; margin-top:6px; }
     .lead-input{
       width:100%;
       padding:12px 12px;
@@ -206,14 +237,164 @@
       margin-top:2px;
     }
 
-    /* MEDIA (opcional) */
     @media (min-width:768px){
       .course{min-width:56%}
+    }
+
+    /* ==============================
+       🎧 MINI PODCAST PLAYER (FACISA)
+       ============================== */
+    .pod-player{
+      position:fixed;
+      left:12px;
+      bottom:74px;
+      z-index:60;
+      width:min(94vw, 420px);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background:rgba(255,255,255,.92);
+      border:1px solid #eef2f4;
+      border-radius:16px;
+      box-shadow:0 14px 40px rgba(16,17,20,.18);
+      padding:10px 10px;
+      backdrop-filter: blur(8px);
+    }
+
+    .pod-btn{
+      width:42px;height:42px;
+      border:0;
+      border-radius:14px;
+      background:var(--red);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .pod-btn:active{ transform:translateY(1px); background:var(--red-dark); }
+
+    .pod-mid{ flex:1; min-width:0; }
+    .pod-title{
+      font-size:12px;
+      font-weight:900;
+      line-height:1.1;
+      color:#111827;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      margin-bottom:6px;
+    }
+
+    .pod-progress{
+      display:grid;
+      grid-template-columns:44px 1fr 44px;
+      align-items:center;
+      gap:8px;
+    }
+
+    .pod-time{
+      font-size:11px;
+      color:var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pod-range{
+      width:100%;
+      accent-color: var(--red);
+      height:18px;
+    }
+
+    .pod-vol{
+      width:84px;
+      accent-color: var(--red);
+      height:18px;
+    }
+
+    .pod-x{
+      width:34px;height:34px;
+      border-radius:12px;
+      border:1px solid #eef2f4;
+      background:#fff;
+      font-size:18px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .pod-player.is-hidden{ display:none; }
+
+    @media (max-width:420px){
+      .pod-vol{ display:none; }
+      .pod-player{ bottom:82px; }
+    }
+
+    /* ==============================
+       🍪 COOKIE MODAL
+       ============================== */
+    .cookie-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(16,17,20,.38);
+      display:grid;
+      place-items:center;
+      z-index:9999;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .35s ease;
+    }
+    .cookie-overlay.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .cookie-modal{
+      width:min(92vw, 560px);
+      background:var(--white, #fff);
+      color:var(--text, #101114);
+      border-radius:var(--radius, 18px);
+      box-shadow:0 16px 48px rgba(16,17,20,.20);
+      padding:18px;
+      transform:translateY(12px);
+      transition:transform .35s ease;
+    }
+    .cookie-overlay.show .cookie-modal{ transform:translateY(0) }
+
+    .cookie-modal h3{
+      margin:0 0 6px;
+      font-size:18px;
+      font-weight:900;
+    }
+    .cookie-desc{
+      margin:0 0 14px;
+      color:var(--muted, #6b7280);
+      line-height:1.5;
+      font-size:14px;
+    }
+
+    .cookie-actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+    .cookie-btn{
+      background:var(--red,#e30613);
+      color:#fff;
+      border:0;
+      border-radius:12px;
+      padding:10px 16px;
+      font-weight:800;
+      cursor:pointer;
+      transition:background .25s ease, transform .05s ease;
+    }
+    .cookie-btn:active{ transform:translateY(1px) }
+    .cookie-btn:hover{ background:var(--red-dark,#b1000d) }
+
+    @media (max-width:480px){
+      .cookie-actions{ justify-content:stretch }
+      .cookie-btn{ width:100% }
     }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header class="topbar">
     <div class="topbar-inner">
       <div class="logo">
@@ -227,7 +408,6 @@
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero reveal">
     <div class="container hero-box card" style="background:linear-gradient(180deg,#fff,#f7fbff)">
       <span class="eyebrow">Vestibular 2026</span>
@@ -255,7 +435,6 @@
     </div>
   </section>
 
-  <!-- HIGHLIGHTS -->
   <section class="reveal">
     <div class="container">
       <h2 class="section-title">Por que escolher a FACISA?</h2>
@@ -277,7 +456,6 @@
     </div>
   </section>
 
-  <!-- IMAGE/HEADLINE PLACEHOLDER SECTION -->
   <section class="reveal">
     <div class="container">
       <div class="card" style="overflow:hidden">
@@ -290,7 +468,6 @@
     </div>
   </section>
 
-  <!-- COURSES -->
   <section id="cursos" class="reveal">
     <div class="container">
       <h2 class="section-title">Cursos disponíveis</h2>
@@ -403,7 +580,6 @@
     </div>
   </section>
 
-  <!-- HOW TO APPLY / BENEFITS -->
   <section id="inscricao" class="reveal">
     <div class="container">
       <div class="step card">
@@ -422,7 +598,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section class="reveal">
     <div class="container">
       <h2 class="section-title">Dúvidas frequentes</h2>
@@ -441,7 +616,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="reveal invert-text">
     <div class="container">
       <div class="footer-brand">FACISA • Vestibular 2026</div>
@@ -449,12 +623,36 @@
     </div>
   </footer>
 
-  <!-- STICKY CTA -->
   <div class="sticky-cta" aria-hidden="false">
     <a href="#inscricao">Quero me inscrever agora</a>
   </div>
 
-  <!-- ✅ MODAL LEAD AGORA VEM ANTES DO SCRIPT (corrige o bug do popup não abrir) -->
+  <!-- 🎧 MINI PODCAST PLAYER (FACISA) -->
+  <div class="pod-player" id="podPlayer" aria-label="Podcast FACISA" role="region">
+    <button class="pod-btn" id="podPlay" type="button" aria-label="Play/Pause">▶</button>
+
+    <div class="pod-mid">
+      <div class="pod-title">Podcast FACISA (até 2 min)</div>
+
+      <div class="pod-progress">
+        <span class="pod-time" id="podCur">0:00</span>
+        <input class="pod-range" id="podSeek" type="range" min="0" max="1000" value="0" aria-label="Progresso do áudio">
+        <span class="pod-time" id="podDur">0:00</span>
+      </div>
+    </div>
+
+    <button class="pod-btn" id="podMute" type="button" aria-label="Mudo">🔊</button>
+    <input class="pod-vol" id="podVol" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+
+    <button class="pod-x" id="podClose" type="button" aria-label="Fechar player">×</button>
+
+    <audio id="podAudio" preload="metadata">
+      <source src="./podcast-facisa.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio.
+    </audio>
+  </div>
+
+  <!-- ✅ MODAL LEAD -->
   <div id="leadModalOverlay" class="lead-overlay" aria-hidden="true">
     <div class="lead-modal" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
       <button class="lead-close" type="button" aria-label="Fechar" id="leadCloseBtn">×</button>
@@ -482,7 +680,7 @@
   </div>
 
   <script>
-    // Fade in/out ao rolar (aplica/retira .visible em ambas direções)
+    // Fade in/out ao rolar
     const observer = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){ e.target.classList.add('visible'); }
@@ -491,34 +689,30 @@
     }, {threshold: 0.15});
     document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-    // ---- HERO SLIDER (independente do carrossel dos cursos) ----
+    // ---- HERO SLIDER ----
     const heroTrack = document.getElementById('heroTrack');
     function scrollHero(dir){
       const slide = heroTrack.querySelector('.hero-slide');
       const step = slide ? slide.getBoundingClientRect().width : heroTrack.clientWidth;
       heroTrack.scrollBy({ left: dir * step, behavior: 'smooth' });
     }
-    // Swipe (touch) do banner
     let hStartX = 0, hScrollLeft = 0, hDown = false;
     heroTrack.addEventListener('pointerdown', (e)=>{ hDown=true; hStartX=e.pageX; hScrollLeft=heroTrack.scrollLeft; heroTrack.setPointerCapture(e.pointerId); });
     heroTrack.addEventListener('pointermove', (e)=>{ if(!hDown) return; const dx = e.pageX - hStartX; heroTrack.scrollLeft = hScrollLeft - dx; });
     ['pointerup','pointercancel','pointerleave'].forEach(evt=>heroTrack.addEventListener(evt, ()=>{ hDown=false; }));
 
-    // ---- Carrossel dos cursos (original) ----
+    // ---- Carrossel dos cursos ----
     const carousel = document.getElementById('carousel');
     function scrollCourses(dir){
       const card = carousel.querySelector('.course');
       const step = card ? card.getBoundingClientRect().width + 12 : 260;
       carousel.scrollBy({left: dir * step, behavior:'smooth'});
     }
-
-    // Swipe (touch) para ter sensação de carrossel
     let startX = 0, scrollLeft = 0, isDown = false;
     carousel.addEventListener('pointerdown', (e)=>{ isDown=true; startX=e.pageX; scrollLeft=carousel.scrollLeft; carousel.setPointerCapture(e.pointerId); });
     carousel.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.pageX - startX; carousel.scrollLeft = scrollLeft - dx; });
     ['pointerup','pointercancel','pointerleave'].forEach(evt=>carousel.addEventListener(evt, ()=>{ isDown=false; }));
 
-    // Acessibilidade: usar teclas de setas quando focado
     carousel.tabIndex = 0;
     carousel.addEventListener('keydown', (e)=>{
       if(e.key==='ArrowRight') scrollCourses(1);
@@ -528,29 +722,6 @@
     // ==============================
     // MODAL LEAD + Advanced Matching
     // ==============================
-
-    // Pixel base preparado (você só troca depois o ID)
-    window.META_PIXEL_ID = window.META_PIXEL_ID || "COLE_SEU_PIXEL_ID_AQUI";
-
-    // Carrega pixel somente se tiver um ID real
-    (function initMetaPixel(){
-      const id = (window.META_PIXEL_ID || "").trim();
-      if(!id || id === "COLE_SEU_PIXEL_ID_AQUI") return;
-
-      // Meta Pixel Code (base)
-      !function(f,b,e,v,n,t,s){
-        if(f.fbq)return; n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
-        n.queue=[]; t=b.createElement(e); t.async=!0;
-        t.src=v; s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)
-      }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-      fbq('init', id);
-      fbq('track', 'PageView');
-    })();
-
     function normalizeEmail(email){ return (email || "").trim().toLowerCase(); }
     function normalizePhoneBR(phone){
       let digits = (phone || "").replace(/\D+/g,'');
@@ -595,7 +766,6 @@
     leadOverlay.addEventListener("click", (e)=>{ if(e.target === leadOverlay) closeLeadModal(); });
     window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && leadOverlay.classList.contains("show")) closeLeadModal(); });
 
-    // Intercepta clique nos cursos e abre modal
     document.querySelectorAll(".course").forEach((a)=>{
       a.addEventListener("click", (e)=>{
         e.preventDefault();
@@ -608,7 +778,6 @@
       });
     });
 
-    // Submit do pré-cadastro -> Lead + redirect
     leadForm.addEventListener("submit", (e)=>{
       e.preventDefault();
 
@@ -620,37 +789,263 @@
       const phone = normalizePhoneBR(leadPhone.value);
       const { fn, ln } = splitName(name);
 
+      const url = (leadRedirect.value || "").trim();
+      const eventId = "lead_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+      const LEAD_KEY = "facisa_px_lead_v1";
+
       try{
         if(typeof fbq === "function"){
-          const id = (window.META_PIXEL_ID || "").trim();
-          if(id && id !== "COLE_SEU_PIXEL_ID_AQUI"){
-            // Advanced Matching + Lead (no momento certo: no envio)
-            fbq('init', id, { em: email||undefined, ph: phone||undefined, fn: fn||undefined, ln: ln||undefined });
+          fbq('init', '731985879919035', {
+            em: email || undefined,
+            ph: phone || undefined,
+            fn: fn || undefined,
+            ln: ln || undefined
+          });
+
+          const gate = window.__facisaPxGate;
+          const canFireLead = gate?.canFire ? gate.canFire(LEAD_KEY) : true;
+
+          if(canFireLead){
             fbq('track', 'Lead', {
               content_name: leadCourse.value || "Vestibular FACISA 2026",
               source: "LP Vestibular 2026"
-            });
+            }, { eventID: eventId });
+
+            gate?.mark && gate.mark(LEAD_KEY);
           }
         }
       }catch(err){
         console.warn("Pixel/Lead não disparou:", err);
       }
 
-      const url = (leadRedirect.value || "").trim();
+      const WAIT_MS = 800;
+
       setTimeout(()=>{
         closeLeadModal();
+
         if(url){
-          window.location.href = url; // mantém em mesma aba (melhor p/ conversão)
+          window.open(url, "_blank", "noopener");
         }else{
           leadSubmitBtn.disabled = false;
           leadSubmitBtn.textContent = "Enviar e continuar";
           alert("Link do curso não encontrado. Verifique o href do card.");
         }
-      }, 350);
+      }, WAIT_MS);
     });
+
+    // ==============================
+    // 🎧 MINI PODCAST PLAYER (FACISA)
+    // ==============================
+    (function initPodcastPlayer(){
+      const wrap  = document.getElementById("podPlayer");
+      if(!wrap) return;
+
+      const audio = document.getElementById("podAudio");
+      const btnPlay = document.getElementById("podPlay");
+      const btnMute = document.getElementById("podMute");
+      const btnClose = document.getElementById("podClose");
+      const seek = document.getElementById("podSeek");
+      const vol  = document.getElementById("podVol");
+      const cur  = document.getElementById("podCur");
+      const dur  = document.getElementById("podDur");
+
+      function fmtTime(s){
+        if(!Number.isFinite(s) || s <= 0) return "0:00";
+        const m = Math.floor(s/60);
+        const r = Math.floor(s%60);
+        return `${m}:${String(r).padStart(2,"0")}`;
+      }
+      function setPlayUI(isPlaying){
+        btnPlay.textContent = isPlaying ? "⏸" : "▶";
+      }
+
+      // ⚙️ estado da sessão (não fica preso em "mutado pra sempre")
+      const STATE = { shouldUnmuteOnUserGesture: true };
+
+      // restaura preferências (default 50%)
+      try{
+        const savedVol = localStorage.getItem("facisa_pod_vol");
+        const savedMuted = localStorage.getItem("facisa_pod_muted");
+        const savedHidden = localStorage.getItem("facisa_pod_hidden");
+
+        if(savedHidden === "1"){
+          wrap.classList.add("is-hidden");
+        }
+
+        if(savedVol !== null){
+          vol.value = String(Math.min(1, Math.max(0, parseFloat(savedVol))));
+          audio.volume = parseFloat(vol.value);
+          if(!Number.isFinite(audio.volume)) audio.volume = 0.5;
+        } else {
+          audio.volume = 0.5;
+          vol.value = "0.5";
+          try{ localStorage.setItem("facisa_pod_vol","0.5"); }catch(e){}
+        }
+
+        // se já tinha escolhido ficar mutado antes, respeita e NÃO desmuta automaticamente
+        if(savedMuted === "1"){
+          audio.muted = true;
+          btnMute.textContent = "🔇";
+          STATE.shouldUnmuteOnUserGesture = false; // usuário quer mutado
+        } else {
+          audio.muted = false;
+          btnMute.textContent = "🔊";
+          STATE.shouldUnmuteOnUserGesture = true;
+        }
+      }catch(e){
+        audio.volume = 0.5;
+        vol.value = "0.5";
+        audio.muted = false;
+        btnMute.textContent = "🔊";
+        STATE.shouldUnmuteOnUserGesture = true;
+      }
+
+      audio.addEventListener("loadedmetadata", ()=>{
+        dur.textContent = fmtTime(audio.duration);
+      });
+
+      audio.addEventListener("timeupdate", ()=>{
+        if(!audio.duration) return;
+        cur.textContent = fmtTime(audio.currentTime);
+        dur.textContent = fmtTime(audio.duration);
+        const v = Math.round((audio.currentTime / audio.duration) * 1000);
+        seek.value = String(isFinite(v) ? v : 0);
+      });
+
+      btnPlay.addEventListener("click", async ()=>{
+        try{
+          if(audio.paused){
+            await audio.play();
+            setPlayUI(true);
+          }else{
+            audio.pause();
+            setPlayUI(false);
+          }
+        }catch(err){
+          console.warn("Não foi possível dar play:", err);
+        }
+      });
+
+      audio.addEventListener("play", ()=> setPlayUI(true));
+      audio.addEventListener("pause", ()=> setPlayUI(false));
+      audio.addEventListener("ended", ()=> setPlayUI(false));
+
+      seek.addEventListener("input", ()=>{
+        if(!audio.duration) return;
+        const t = (parseInt(seek.value,10) / 1000) * audio.duration;
+        audio.currentTime = Math.max(0, Math.min(audio.duration, t));
+      });
+
+      vol.addEventListener("input", ()=>{
+        audio.volume = parseFloat(vol.value);
+        if(!Number.isFinite(audio.volume)) audio.volume = 0.5;
+        try{ localStorage.setItem("facisa_pod_vol", String(audio.volume)); }catch(e){}
+        // se o usuário mexeu no volume, a intenção geralmente é "com som"
+        if(audio.muted && audio.volume > 0){
+          audio.muted = false;
+          btnMute.textContent = "🔊";
+          try{ localStorage.setItem("facisa_pod_muted","0"); }catch(e){}
+          STATE.shouldUnmuteOnUserGesture = true;
+        }
+      });
+
+      btnMute.addEventListener("click", ()=>{
+        audio.muted = !audio.muted;
+        btnMute.textContent = audio.muted ? "🔇" : "🔊";
+        try{ localStorage.setItem("facisa_pod_muted", audio.muted ? "1" : "0"); }catch(e){}
+        STATE.shouldUnmuteOnUserGesture = !audio.muted;
+      });
+
+      btnClose.addEventListener("click", ()=>{
+        audio.pause();
+        wrap.classList.add("is-hidden");
+        try{ localStorage.setItem("facisa_pod_hidden","1"); }catch(e){}
+      });
+
+      // atalho pra reabrir: Ctrl+P / Cmd+P
+      window.addEventListener("keydown", (e)=>{
+        if((e.ctrlKey || e.metaKey) && (e.key || "").toLowerCase() === "p"){
+          e.preventDefault();
+          wrap.classList.toggle("is-hidden");
+          try{ localStorage.setItem("facisa_pod_hidden", wrap.classList.contains("is-hidden") ? "1" : "0"); }catch(err){}
+        }
+      });
+
+      // ✅ API global pra liberar áudio (cookie / qualquer gesto)
+      window.__facisaUnlockAudio = async function(){
+        try{
+          if(wrap.classList.contains("is-hidden")) return;
+
+          // volume no meio
+          audio.volume = 0.5;
+          vol.value = "0.5";
+          try{ localStorage.setItem("facisa_pod_vol","0.5"); }catch(e){}
+
+          // desmuta (a intenção aqui é tocar com som)
+          audio.muted = false;
+          btnMute.textContent = "🔊";
+          try{ localStorage.setItem("facisa_pod_muted","0"); }catch(e){}
+          STATE.shouldUnmuteOnUserGesture = true;
+
+          await audio.play();
+        }catch(err){
+          console.warn("Unlock áudio falhou:", err);
+        }
+      };
+
+      // ✅ AUTOPLAY:
+      // - Ao entrar: tenta tocar MUTADO (mais provável funcionar)
+      // - Depois: no cookie/1º gesto, chama unlock e toca com som 50%
+      async function tryAutoplayMuted(){
+        try{
+          if(wrap.classList.contains("is-hidden")) return;
+
+          // toca mutado pra passar no bloqueio
+          audio.volume = 0.5;
+          vol.value = "0.5";
+          audio.muted = true;
+          btnMute.textContent = "🔇";
+
+          const p = audio.play();
+          if(p && typeof p.then === "function"){
+            await p;
+          }
+          setPlayUI(true);
+        }catch(e){
+          // ok, vai tocar quando tiver gesto
+        }
+      }
+      window.addEventListener("load", ()=>{ tryAutoplayMuted(); }, { once:true });
+
+      // fallback: se cookies já foram aceitos e não tem modal,
+      // a primeira interação do usuário libera o som (50%) automaticamente.
+      (function unlockOnFirstGesture(){
+        let done = false;
+
+        async function onGesture(){
+          if(done) return;
+          done = true;
+
+          // só libera se o usuário não escolheu ficar mutado permanentemente
+          if(STATE.shouldUnmuteOnUserGesture){
+            await window.__facisaUnlockAudio();
+          }
+
+          window.removeEventListener("click", onGesture);
+          window.removeEventListener("touchstart", onGesture);
+          window.removeEventListener("pointerdown", onGesture);
+          window.removeEventListener("scroll", onGesture);
+        }
+
+        window.addEventListener("click", onGesture, { once:true, passive:true });
+        window.addEventListener("touchstart", onGesture, { once:true, passive:true });
+        window.addEventListener("pointerdown", onGesture, { once:true, passive:true });
+        window.addEventListener("scroll", onGesture, { once:true, passive:true });
+      })();
+    })();
   </script>
 
-  <!-- AVISO DE COOKIES (centralizado e responsivo) -->
+  <!-- AVISO DE COOKIES -->
   <div id="cookieOverlay" class="cookie-overlay" aria-hidden="true">
     <div id="cookieBanner" class="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookieTitle">
       <h3 id="cookieTitle">Usamos cookies 🍪</h3>
@@ -662,72 +1057,6 @@
       </div>
     </div>
   </div>
-
-  <style>
-  .cookie-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(16,17,20,.38);
-    display:grid;
-    place-items:center;
-    z-index:9999;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .35s ease;
-  }
-  .cookie-overlay.show{
-    opacity:1;
-    pointer-events:auto;
-  }
-
-  .cookie-modal{
-    width:min(92vw, 560px);
-    background:var(--white, #fff);
-    color:var(--text, #101114);
-    border-radius:var(--radius, 18px);
-    box-shadow:0 16px 48px rgba(16,17,20,.20);
-    padding:18px;
-    transform:translateY(12px);
-    transition:transform .35s ease;
-  }
-  .cookie-overlay.show .cookie-modal{ transform:translateY(0) }
-
-  .cookie-modal h3{
-    margin:0 0 6px;
-    font-size:18px;
-    font-weight:900;
-  }
-  .cookie-desc{
-    margin:0 0 14px;
-    color:var(--muted, #6b7280);
-    line-height:1.5;
-    font-size:14px;
-  }
-
-  .cookie-actions{
-    display:flex;
-    gap:10px;
-    justify-content:flex-end;
-    flex-wrap:wrap;
-  }
-  .cookie-btn{
-    background:var(--red,#e30613);
-    color:#fff;
-    border:0;
-    border-radius:12px;
-    padding:10px 16px;
-    font-weight:800;
-    cursor:pointer;
-    transition:background .25s ease, transform .05s ease;
-  }
-  .cookie-btn:active{ transform:translateY(1px) }
-  .cookie-btn:hover{ background:var(--red-dark,#b1000d) }
-
-  @media (max-width:480px){
-    .cookie-actions{ justify-content:stretch }
-    .cookie-btn{ width:100% }
-  }
-  </style>
 
   <script>
   document.addEventListener("DOMContentLoaded", ()=>{
@@ -742,10 +1071,16 @@
       }, 600);
     }
 
-    function acceptCookies(){
+    async function acceptCookies(){
       localStorage.setItem("cookiesAccepted","true");
       overlay.classList.remove("show");
       overlay.setAttribute("aria-hidden","true");
+
+      // ✅ o clique do cookie é a "primeira interação" perfeita:
+      // toca com som 50% e sem mudo
+      if(typeof window.__facisaUnlockAudio === "function"){
+        await window.__facisaUnlockAudio();
+      }
     }
     btn.addEventListener("click", acceptCookies);
 
